@@ -1,0 +1,73 @@
+/*
+*testRecord.css
+*提交记录页的css样式
+*/
+
+table{
+    width: 96%;
+    margin: 20px 2%;
+}
+
+table thead tr{
+    height:20px;
+}
+
+table thead tr th{
+    font-size:0.9rem;
+    text-align: center;
+    padding: 5px 10px;
+    border:1px #ccc solid;
+}
+
+table tbody tr{
+    border:1px #ccc solid;
+}
+
+table tbody tr td{
+    font-size:0.9rem;
+    text-align: center;
+    padding: 2px 10px;
+}
+
+#tablerecord tbody tr td{
+    padding:8px 5px;
+}
+
+.run-status{
+    padding: 2px 5%;
+    border-radius: 5px;
+    color: #fff
+}
+
+/*submit failed, pending,judging,Accept,ComplieError,RuntimeError*/
+
+/*submit failed红色*/
+.submit-failed{
+    background: #BE3144;
+}
+
+
+/*pending灰色*/
+.pending{
+    background: #bbb;
+}
+
+/*judging蓝色*/
+.judging{
+    background: #4797B1;
+}
+
+/*accepted绿色*/
+.accepted{
+    background: rgb(39, 194, 76);
+}
+
+/*ComplieError黄色*/
+.complie{
+    background: #FC8A15;
+}
+
+/*RuntimeError粉红*/
+.runtime{
+    background: #FF847C;
+}

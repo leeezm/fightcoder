@@ -1,0 +1,94 @@
+/*
+*nav.css
+*导航栏的css样式
+*/
+html, body{
+	margin:0;
+	padding: 0;
+	font-size: 16px;
+	font-family: cursive;
+}
+
+#canvas{
+	position: fixed;
+	background-size: contain;
+	background-repeat: no-repeat;
+	z-index: -1;
+}
+
+.nav-container{
+	position: fixed;
+	z-index: 2;
+	display: flex;
+	display:-moz-flex;
+	display: -webkit-flex;
+	align-items: center;
+	width:100%;
+	height:100px;
+	color: #ccc;
+	font-size: 1.2rem;
+}
+
+.nav-header{
+	width: 24%;
+}
+
+.nav-header a{
+	text-decoration: none;
+}
+
+.nav-header a img{
+	width: 100%;
+	height:90px;
+	margin-left: 10%;
+}
+
+.nav-header a:hover{
+	color: #F1E58A;
+}
+
+.nav-list{
+	width:60%;
+	text-align: left;
+}
+
+.nav-list ul{
+	margin: 0;
+	padding: 0;
+}
+
+.nav-list ul li a{
+	text-orientation: none;
+}
+
+
+.nav-list ul li{
+	text-align: center;
+	display: inline-block;
+	margin: 2% 2%;
+}
+
+.nav-list ul li a img{
+	width: 53%;
+	height: 53%;
+	margin: 0 auto;
+}
+
+.nav-login{
+	width: 16%;
+	display: flex;
+	display:-moz-flex;
+	display: -webkit-flex;
+}
+
+.nav-login div{
+	padding-top: 10px;
+	width: 50%;
+	text-align: center;
+}
+
+.nav-login div img{
+	width: 70%;
+	height: 70%;
+}
+
