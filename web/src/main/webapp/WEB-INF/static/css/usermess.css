@@ -1,0 +1,215 @@
+/*
+*usermess.css
+*个人信息页css样式
+*/
+
+.mainbody{
+	position: absolute;
+	width:100%;
+	height:100%;
+	display: flex;
+	justify-content: center;
+	padding:10%;
+}
+
+.aside{
+	margin-top:100px;
+	width:30%;
+}
+
+.aside ul{
+	font-size: 1.2rem;
+	margin: 0;
+	padding: 0;
+}
+
+.aside ul a{
+	text-decoration: none;
+	color: #000;
+}
+
+.aside ul a li{
+	list-style: none;
+	padding: 3%;
+	line-height: 40px;
+	border-radius: 10px;
+}
+
+.aside ul a li:hover{
+	background: #F3F3F3;
+}
+
+.content{
+	margin-left:2%; 
+	width:68%;
+}
+
+.content-header{
+	height:120px;
+	width: 100%;
+}
+
+.content-mess{
+    height:350px;
+    overflow-y: scroll;
+}
+
+.content-mess::-webkit-scrollbar {
+    width: 10px;
+    height:10px;
+}
+.content-mess::-webkit-scrollbar-track {
+    background-color:#f5f5f5;
+    border-radius: 10px;
+}
+.content-mess::-webkit-scrollbar-thumb {
+    background-color: #ccc;
+    border-radius: 10px;
+}
+
+.pic-nickname{
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+}
+
+.user-img{
+	padding: 10px;
+	width:120px;
+	height:100%;
+}
+
+.user-img img{
+	width:100px;
+	height: 100px;
+	border-radius: 50%;
+	background: #fff;
+}
+
+.user-mess{
+	width: 80%;
+}
+
+.user-nickname{
+	margin: 0 2%;
+	font-size: 2rem;
+}
+
+.user-other{
+	display: flex;
+	width: 100%;
+}
+
+.user-other div{
+	margin: 0 2%;
+}
+
+.usermess{
+	display: flex;
+	height: 120px;
+	width: 100%;
+	align-items: center;
+}
+
+.usermess img{
+	border-radius: 50%;
+	width: 100px;
+	height:100px;
+	margin:2%;
+}
+
+.file-btn{
+	width:80px;
+	height: 40px;
+	border:2px green solid;
+	border-radius: 10px;
+	color: green;
+	margin-left: 2%;
+}
+
+.file-btn span{
+	display: block;
+	position: absolute;
+	width:80px;
+	height: 40px;
+	text-align: center;
+	padding-top: 8px;
+	cursor: pointer;
+}
+
+.file-btn input{
+	opacity: 0;
+	width:80px;
+	height: 40px;
+	cursor: pointer;
+}
+
+.item{
+	padding: 2%;
+	height: 40px;
+	display: flex;
+}
+
+.item-label{
+	width:20%;
+}
+
+.item-content{
+	width: 80%
+}
+
+.btn-box{
+	margin-top:20px;
+}
+
+.send-btn{
+	padding:10px;
+	border:2px green solid;
+	border-radius: 10px;
+	text-decoration: none;
+	color: green;
+}
+
+.send-btn:hover{
+	text-decoration: none;
+	background-color: #f7f7f7;
+}
+
+.notice-btn{
+	padding:10px;
+	border:2px #ccc solid;
+	border-radius: 10px;
+	text-decoration: none;
+	color: #8E8B82;
+}
+
+.notice-btn:hover{
+	text-decoration: none;
+	background-color: #f7f7f7;
+	cursor: pointer;
+}
+
+#li-self{
+	background-color: #F3F3F3;
+}
+
+input[type=submit], input[type=reset], input[name=submit], input[name=reset]{
+	background-color: transparent;
+	border:2px green solid;
+	outline: none;
+	width:60px;
+	height: 35px;
+	cursor: pointer;
+	border-radius: 10px;
+	color: green;
+}
+
+input[type=reset], input[name=reset]{
+	border-color: #ccc;
+	color: #8E8B82;
+}
+
+input[type=submit]:hover, input[type=reset]:hover, input[name=submit]:hover, input[name=reset]:hover{
+	background-color: #f7f7f7;
+}
+

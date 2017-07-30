@@ -1,0 +1,105 @@
+/*
+*problemList.css
+*题库页的css样式
+*/
+
+.mainbody{
+	position: absolute;
+	width:100%;
+	height:100%;
+}
+
+.list-menu{
+	margin:0 auto;
+	margin-top: 130px;
+    display: flex;
+    box-shadow: 0 0 20px #ccc;
+    border-radius: 5px;
+    padding: 10px 0;
+    justify-content: space-around;
+    color: #205D67;
+    width: 70%;
+    cursor: pointer;
+}
+
+.list-menu li{
+    list-style: none;
+    cursor: pointer;
+}
+
+.list-menu li:hover > ul{
+    box-shadow: 0 0 10px #ccc;
+    display: block;
+}
+
+.list-menu li ul{
+    position: absolute;
+    display: none;
+    background: #fff;
+    border:1px #f7f7f7 solid;
+    border-radius: 5px;
+    width: 10%;
+    margin: 0;
+    padding: 0;
+    color:#205D67;
+    font-size: 0.9rem;
+}
+
+.list-menu li ul a{
+    text-decoration: none;
+    color:#205D67;
+}
+
+.list-menu li ul a li{
+    line-height: 30px;
+    padding-left:10%;
+    box-sizing: border-box;
+    width: 100%;
+}
+
+.list-menu li ul a li:hover{
+    background: #f7f7f7;
+    cursor: pointer;
+}
+
+.problem-list{
+	width: 70%;
+	height:68%;
+	margin: 0 auto;
+	margin-top:2%;
+    box-shadow: 0 0 20px #bbb;
+}
+
+.problem-table{
+	width:90%;
+	margin:0 5%;
+}
+
+.problem-table thead tr{
+	height:30px;
+}
+
+#problem-table-body tr{
+	height: 25px;
+}
+
+#problem-table-body tr:hover{
+	background-color: #f7f7f7
+}
+
+#problem-table-body tr td{
+
+}
+
+#problem-table-body tr td a{
+	text-decoration: none;
+}
+
+.problem-bg{
+	position: absolute;
+	width:100%;
+	height:100%;
+	background-image: url(../images/prolistbg.jpg);
+	background-size: cover;
+	z-index: -2;
+}
