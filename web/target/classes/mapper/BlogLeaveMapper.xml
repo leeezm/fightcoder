@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fightcoder.mapper.BlogLeaveMapper" >
+  <resultMap id="BaseResultMap" type="com.fightcoder.pojo.BlogLeave" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="leaveId" property="leaveid" jdbcType="INTEGER" />
+    <result column="receiveId" property="receiveid" jdbcType="INTEGER" />
+    <result column="mainId" property="mainid" jdbcType="INTEGER" />
+    <result column="createdate" property="createdate" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.fightcoder.pojo.BlogLeave" extends="BaseResultMap" >
+    <result column="leaveContent" property="leavecontent" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, leaveId, receiveId, mainId, createdate
+  </sql>
+  <sql id="Blob_Column_List" >
+    leaveContent
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from inst_blog_leave
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from inst_blog_leave
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.fightcoder.pojo.BlogLeave" >
+    insert into inst_blog_leave (id, leaveId, receiveId, 
+      mainId, createdate, leaveContent
+      )
+    values (#{id,jdbcType=INTEGER}, #{leaveid,jdbcType=INTEGER}, #{receiveid,jdbcType=INTEGER}, 
+      #{mainid,jdbcType=INTEGER}, #{createdate,jdbcType=VARCHAR}, #{leavecontent,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.fightcoder.pojo.BlogLeave" >
+    insert into inst_blog_leave
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="leaveid != null" >
+        leaveId,
+      </if>
+      <if test="receiveid != null" >
+        receiveId,
+      </if>
+      <if test="mainid != null" >
+        mainId,
+      </if>
+      <if test="createdate != null" >
+        createdate,
+      </if>
+      <if test="leavecontent != null" >
+        leaveContent,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="leaveid != null" >
+        #{leaveid,jdbcType=INTEGER},
+      </if>
+      <if test="receiveid != null" >
+        #{receiveid,jdbcType=INTEGER},
+      </if>
+      <if test="mainid != null" >
+        #{mainid,jdbcType=INTEGER},
+      </if>
+      <if test="createdate != null" >
+        #{createdate,jdbcType=VARCHAR},
+      </if>
+      <if test="leavecontent != null" >
+        #{leavecontent,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.fightcoder.pojo.BlogLeave" >
+    update inst_blog_leave
+    <set >
+      <if test="leaveid != null" >
+        leaveId = #{leaveid,jdbcType=INTEGER},
+      </if>
+      <if test="receiveid != null" >
+        receiveId = #{receiveid,jdbcType=INTEGER},
+      </if>
+      <if test="mainid != null" >
+        mainId = #{mainid,jdbcType=INTEGER},
+      </if>
+      <if test="createdate != null" >
+        createdate = #{createdate,jdbcType=VARCHAR},
+      </if>
+      <if test="leavecontent != null" >
+        leaveContent = #{leavecontent,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.fightcoder.pojo.BlogLeave" >
+    update inst_blog_leave
+    set leaveId = #{leaveid,jdbcType=INTEGER},
+      receiveId = #{receiveid,jdbcType=INTEGER},
+      mainId = #{mainid,jdbcType=INTEGER},
+      createdate = #{createdate,jdbcType=VARCHAR},
+      leaveContent = #{leavecontent,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.fightcoder.pojo.BlogLeave" >
+    update inst_blog_leave
+    set leaveId = #{leaveid,jdbcType=INTEGER},
+      receiveId = #{receiveid,jdbcType=INTEGER},
+      mainId = #{mainid,jdbcType=INTEGER},
+      createdate = #{createdate,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fightcoder.mapper.FactionMapper" >
+  <resultMap id="BaseResultMap" type="com.fightcoder.pojo.Faction" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="creatorId" property="creatorid" jdbcType="INTEGER" />
+    <result column="rank" property="rank" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+    <result column="creationDate" property="creationdate" jdbcType="VARCHAR" />
+    <result column="deputyLeader" property="deputyleader" jdbcType="VARCHAR" />
+    <result column="elite" property="elite" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.fightcoder.pojo.Faction" extends="BaseResultMap" >
+    <result column="member" property="member" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, creatorId, rank, name, description, creationDate, deputyLeader, elite
+  </sql>
+  <sql id="Blob_Column_List" >
+    member
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from inst_faction
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from inst_faction
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.fightcoder.pojo.Faction" >
+    insert into inst_faction (id, creatorId, rank, 
+      name, description, creationDate, 
+      deputyLeader, elite, member
+      )
+    values (#{id,jdbcType=INTEGER}, #{creatorid,jdbcType=INTEGER}, #{rank,jdbcType=INTEGER}, 
+      #{name,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, #{creationdate,jdbcType=VARCHAR}, 
+      #{deputyleader,jdbcType=VARCHAR}, #{elite,jdbcType=VARCHAR}, #{member,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.fightcoder.pojo.Faction" >
+    insert into inst_faction
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="creatorid != null" >
+        creatorId,
+      </if>
+      <if test="rank != null" >
+        rank,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="description != null" >
+        description,
+      </if>
+      <if test="creationdate != null" >
+        creationDate,
+      </if>
+      <if test="deputyleader != null" >
+        deputyLeader,
+      </if>
+      <if test="elite != null" >
+        elite,
+      </if>
+      <if test="member != null" >
+        member,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="creatorid != null" >
+        #{creatorid,jdbcType=INTEGER},
+      </if>
+      <if test="rank != null" >
+        #{rank,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="creationdate != null" >
+        #{creationdate,jdbcType=VARCHAR},
+      </if>
+      <if test="deputyleader != null" >
+        #{deputyleader,jdbcType=VARCHAR},
+      </if>
+      <if test="elite != null" >
+        #{elite,jdbcType=VARCHAR},
+      </if>
+      <if test="member != null" >
+        #{member,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.fightcoder.pojo.Faction" >
+    update inst_faction
+    <set >
+      <if test="creatorid != null" >
+        creatorId = #{creatorid,jdbcType=INTEGER},
+      </if>
+      <if test="rank != null" >
+        rank = #{rank,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="creationdate != null" >
+        creationDate = #{creationdate,jdbcType=VARCHAR},
+      </if>
+      <if test="deputyleader != null" >
+        deputyLeader = #{deputyleader,jdbcType=VARCHAR},
+      </if>
+      <if test="elite != null" >
+        elite = #{elite,jdbcType=VARCHAR},
+      </if>
+      <if test="member != null" >
+        member = #{member,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.fightcoder.pojo.Faction" >
+    update inst_faction
+    set creatorId = #{creatorid,jdbcType=INTEGER},
+      rank = #{rank,jdbcType=INTEGER},
+      name = #{name,jdbcType=VARCHAR},
+      description = #{description,jdbcType=VARCHAR},
+      creationDate = #{creationdate,jdbcType=VARCHAR},
+      deputyLeader = #{deputyleader,jdbcType=VARCHAR},
+      elite = #{elite,jdbcType=VARCHAR},
+      member = #{member,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.fightcoder.pojo.Faction" >
+    update inst_faction
+    set creatorId = #{creatorid,jdbcType=INTEGER},
+      rank = #{rank,jdbcType=INTEGER},
+      name = #{name,jdbcType=VARCHAR},
+      description = #{description,jdbcType=VARCHAR},
+      creationDate = #{creationdate,jdbcType=VARCHAR},
+      deputyLeader = #{deputyleader,jdbcType=VARCHAR},
+      elite = #{elite,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
