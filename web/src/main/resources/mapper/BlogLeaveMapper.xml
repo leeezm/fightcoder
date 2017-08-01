@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.web.dao.BlogLeaveDao">
+
+    <!--save-->
+    <insert id="save" parameterType="com.web.entity.BlogLeave">
+      insert into inst_blog_leave (id, leaveId, receiveId,mainId, createdate, leaveContent)
+      values (#{id}, #{leaveid}, #{receiveid}, #{mainid}, #{createdate},#{leavecontent})
+    </insert>
+
+    <insert id="saveBatch" parameterType="java.util.List">
+        insert into inst_blog_leave (id, leaveId, receiveId,mainId, createdate, leaveContent)
+        values
+      <if test="list!=null">
+          <foreach collection="list" item="item"  separator=",">
+              (#{item.id}, #{item.leaveid}, #{item.receiveid},
+              #{item.mainid}, #{item.createdate},#{item.leavecontent})
+          </foreach>
+      </if>
+
+    </insert>
+
+    <!--remove-->
+    <delete id="remove" parameterType="java.lang.Integer" >
+        delete from inst_blog_leave
+        where id = #{id}
+    </delete>
+
+    <!--removeBatch-->
+    <delete id="removeBatch" parameterType="int">
+        delete from inst_blog_leave
+        where id IN
+        <if test="array!=null">
+            <foreach collection="array" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+    </delete>
+
+    <!--update-->
+    <update id="update" parameterType="com.web.entity.BlogLeave">
+        update inst_blog_leave
+        <set>
+            <if test="leaveid!=0">
+                leaveId = #{leaveid},
+            </if>
+            <if test="receiveid!=0">
+                receiveId = #{receiveid},
+            </if>
+            <if test="mainid!=0">
+                mainId = #{mainid},
+            </if>
+
+            <if test="createdate!=null and createdate!=''">
+                createdate = #{createdate},
+            </if>
+            <if test="leavecontent!=null and leavecontent!=''">
+                leaveContent = #{leavecontent}
+            </if>
+
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--find-->
+    <select id="getEntityById" parameterType="int" resultType="com.web.entity.BlogLeave">
+        select
+        id, leaveId, receiveId,mainId, createdate, leaveContent
+        from inst_blog_leave
+        where id = #{id}
+    </select>
+
+    <select id="listBatch"  resultType="com.web.entity.BlogLeave">
+        select * from inst_blog_leave
+        <where>
+            <if test="param1.leaveid !=0">
+                AND inst_blog_leave.leaveId = #{param1.leaveid}
+            </if>
+            <if test="param1.receiveid !=0">
+                AND inst_blog_leave.receiveid = #{param1.receiveid}
+            </if>
+            <if test="param1.mainid !=0">
+                AND inst_blog_leave.mainid = #{param1.mainid}
+            </if>
+            <if test="param1.createdate !=null and createdate!=''">
+                AND inst_blog_leave.createdate = #{param1.createdate}
+            </if>
+            <if test="param1.leavecontent !=null and leavecontent!=''">
+                AND inst_blog_leave.leaveContent = #{param1.leavecontent}
+            </if>
+
+        </where>
+        limit #{param2},#{param3}
+
+    </select>
+
+    <!--count-->
+    <select id="count" parameterType="com.web.entity.BlogLeave" resultType="int">
+        select count(*) from inst_blog_leave
+        <where>
+            <if test="leaveid !=0">
+                AND inst_blog_leave.leaveId = #{leaveid}
+            </if>
+            <if test="receiveid !=0">
+                AND inst_blog_leave.receiveId = #{receiveid}
+            </if>
+            <if test="mainid !=0">
+                AND inst_blog_leave.mainId = #{mainid}
+            </if>
+            <if test="createdate !=null and createdate!=''">
+                AND inst_blog_leave.createdate = #{createdate}
+            </if>
+            <if test="leavecontent !=null and leavecontent!=''">
+                AND inst_blog_leave.leaveContent = #{leavecontent}
+            </if>
+        </where>
+    </select>
+
+    <select id="countAll" resultType="int">
+        select count(*) from inst_blog_leave
+    </select>
+
+
+
+</mapper>

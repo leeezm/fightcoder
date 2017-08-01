@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.web.dao.InformDao">
+
+    <!--save-->
+    <insert id="save" parameterType="com.web.entity.Inform">
+      insert into inst_inform (id, recieveId, sendTime, flag, content)
+      values (#{id}, #{recieveid}, #{sendtime}, #{flag}, #{content})
+    </insert>
+
+    <insert id="saveBatch" parameterType="java.util.List">
+        insert into inst_inform (id, recieveId, sendTime,flag, content)
+        values
+      <if test="list!=null">
+          <foreach collection="list" item="item"  separator=",">
+              (#{item.id}, #{item.recieveid}, #{item.sendtime},
+              #{item.flag}, #{item.content})
+          </foreach>
+      </if>
+
+    </insert>
+
+    <!--remove-->
+    <delete id="remove" parameterType="java.lang.Integer" >
+        delete from inst_inform
+        where id = #{id}
+    </delete>
+
+    <!--removeBatch-->
+    <delete id="removeBatch" parameterType="int">
+        delete from inst_inform
+        where id IN
+        <if test="array!=null">
+            <foreach collection="array" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+    </delete>
+
+    <!--update-->
+    <update id="update" parameterType="com.web.entity.Inform">
+        update inst_inform
+        <set>
+            <if test="recieveid!=0">
+                recieveid = #{recieveid},
+            </if>
+            <if test="sendtime!=null and sendtime!=''">
+                sendtime = #{sendtime},
+            </if>
+            <if test="flag!=0">
+                flag = #{flag},
+            </if>
+            <if test="content!=null and content!=''">
+                content = #{content}
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--find-->
+    <select id="getEntityById" parameterType="int" resultType="com.web.entity.Inform">
+        select
+        id, recieveId, sendTime, flag, content
+        from inst_inform
+        where id = #{id}
+    </select>
+
+    <select id="listBatch"  resultType="com.web.entity.Inform">
+        select * from inst_inform
+        <where>
+            <if test="param1.recieveid !=0">
+                AND inst_inform.recieveid = #{param1.recieveid}
+            </if>
+            <if test="param1.sendtime !=null and sendtime!=''">
+                AND inst_inform.sendtime = #{param1.sendtime}
+            </if>
+            <if test="param1.flag !=0">
+                AND inst_inform.flag = #{param1.flag}
+            </if>
+            <if test="param1.content !=null and content!=''">
+                AND inst_inform.content = #{param1.content}
+            </if>
+        </where>
+        limit #{param2},#{param3}
+
+    </select>
+
+    <!--count-->
+    <select id="count" parameterType="com.web.entity.Inform" resultType="int">
+        select count(*) from inst_inform
+        <where>
+            <if test="recieveid !=0">
+                AND inst_inform.recieveid = #{recieveid}
+            </if>
+            <if test="sendtime !=null and sendtime!=''">
+                AND inst_inform.sendtime = #{sendtime}
+            </if>
+            <if test="flag !=0">
+                AND inst_inform.flag = #{flag}
+            </if>
+            <if test="content !=null and content!=''">
+                AND inst_inform.content = #{content}
+            </if>
+        </where>
+    </select>
+
+    <select id="countAll" resultType="int">
+        select count(*) from inst_inform
+    </select>
+
+
+
+</mapper>
