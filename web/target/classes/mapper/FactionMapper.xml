@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.web.dao.FactionDao">
+
+    <!--save-->
+    <insert id="save" parameterType="com.web.entity.Faction">
+      insert into inst_faction (id, creatorId, rank, name, description, creationDate, deputyLeader, elite,member)
+      values (#{id}, #{creatorid}, #{rank}, #{name}, #{description},#{creationdate},#{deputyleader},#{elite},#{member})
+    </insert>
+
+    <insert id="saveBatch" parameterType="java.util.List">
+        insert into inst_faction (id, creatorId, rank, name, description, creationDate, deputyLeader, elite,member)
+        values
+      <if test="list!=null">
+          <foreach collection="list" item="item"  separator=",">
+              (#{item.id}, #{item.creatorid}, #{item.rank},
+              #{item.name}, #{item.description}, #{item.creationdate}, #{item.deputyleader}, #{item.elite}, #{item.member})
+          </foreach>
+      </if>
+
+    </insert>
+
+    <!--remove-->
+    <delete id="remove" parameterType="java.lang.Integer" >
+        delete from inst_faction
+        where id = #{id}
+    </delete>
+
+    <!--removeBatch-->
+    <delete id="removeBatch" parameterType="int">
+        delete from inst_faction
+        where id IN
+        <if test="array!=null">
+            <foreach collection="array" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+    </delete>
+
+    <!--update-->
+    <update id="update" parameterType="com.web.entity.Faction">
+        update inst_faction
+        <set>
+            <if test="creatorid!=0">
+                creatorid = #{creatorid},
+            </if>
+            <if test="rank!=0">
+                rank = #{rank},
+            </if>
+            <if test="name!=null and name!=''">
+                name = #{name},
+            </if>
+            <if test="description!=null and description!=''">
+                description = #{description}
+            </if>
+            <if test="creationdate!=null and creationdate!=''">
+                creationdate = #{creationdate}
+            </if>
+            <if test="deputyleader!=null and deputyleader!=''">
+                deputyleader = #{deputyleader}
+            </if>
+            <if test="elite!=null and elite!=''">
+                elite = #{elite}
+            </if>
+            <if test="member!=null and member!=''">
+                member = #{member}
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--find-->
+    <select id="getEntityById" parameterType="int" resultType="com.web.entity.Faction">
+        select
+        id, creatorId, rank, name, description, creationDate, deputyLeader, elite,member
+        from inst_faction
+        where id = #{id}
+    </select>
+
+    <select id="listBatch"  resultType="com.web.entity.Faction">
+        select * from inst_faction
+        <where>
+            <if test="param1.creatorid !=0">
+                AND inst_faction.creatorid = #{param1.creatorid}
+            </if>
+            <if test="param1.rank !=0">
+                AND inst_faction.rank = #{param1.rank}
+            </if>
+            <if test="param1.name !=null and name!=''">
+                AND inst_faction.name = #{param1.name}
+            </if>
+            <if test="param1.description !=null and description!=''">
+                AND inst_faction.description = #{param1.description}
+            </if>
+            <if test="param1.creationdate !=null and creationdate!=''">
+                AND inst_faction.creationdate = #{param1.creationdate}
+            </if>
+            <if test="param1.deputyleader !=null and deputyleader!=''">
+                AND inst_faction.deputyleader = #{param1.deputyleader}
+            </if>
+            <if test="param1.elite !=null and elite!=''">
+                AND inst_faction.elite = #{param1.elite}
+            </if>
+            <if test="param1.member !=null and member!=''">
+                AND inst_faction.member = #{param1.member}
+            </if>
+        </where>
+        limit #{param2},#{param3}
+
+    </select>
+
+    <!--count-->
+    <select id="count" parameterType="com.web.entity.Faction" resultType="int">
+        select count(*) from inst_faction
+        <where>
+            <if test="creatorid !=0">
+                AND inst_faction.creatorid = #{creatorid}
+            </if>
+            <if test="rank !=0">
+                AND inst_faction.rank = #{rank}
+            </if>
+            <if test="name !=null and name!=''">
+                AND inst_faction.name = #{name}
+            </if>
+            <if test="description !=null and description!=''">
+                AND inst_faction.description = #{description}
+            </if>
+            <if test="creationdate !=null and creationdate!=''">
+                AND inst_faction.creationdate = #{creationdate}
+            </if>
+            <if test="deputyleader !=null and deputyleader!=''">
+                AND inst_faction.deputyleader = #{deputyleader}
+            </if>
+            <if test="elite !=null and elite!=''">
+                AND inst_faction.elite = #{elite}
+            </if>
+            <if test="member !=null and member!=''">
+                AND inst_faction.member = #{member}
+            </if>
+        </where>
+    </select>
+
+    <select id="countAll" resultType="int">
+        select count(*) from inst_faction
+    </select>
+
+
+
+</mapper>

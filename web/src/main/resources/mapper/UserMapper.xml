@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.web.dao.UserDao">
+
+    <!--save-->
+    <insert id="save" parameterType="com.web.entity.User">
+      insert into inst_user (id, instCoderId, creationDate, email, password)
+      values (#{id}, #{instcoderid}, #{creationdate}, #{email}, #{password})
+    </insert>
+
+    <insert id="saveBatch" parameterType="java.util.List">
+        insert into inst_user (id, instCoderId, creationDate, email, password)
+        values
+      <if test="list!=null">
+          <foreach collection="list" item="item"  separator=",">
+              (#{item.id}, #{item.instcoderid}, #{item.creationdate},
+              #{item.email}, #{item.password})
+          </foreach>
+      </if>
+
+    </insert>
+
+    <!--remove-->
+    <delete id="remove" parameterType="java.lang.Integer" >
+        delete from inst_user
+        where id = #{id}
+    </delete>
+
+    <!--removeBatch-->
+    <delete id="removeBatch" parameterType="int">
+        delete from inst_user
+        where id IN
+        <if test="array!=null">
+            <foreach collection="array" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+    </delete>
+
+    <!--update-->
+    <update id="update" parameterType="com.web.entity.User">
+        update inst_user
+        <set>
+            <if test="instcoderid!=0">
+                instcoderid = #{instcoderid},
+            </if>
+            <if test="creationdate!=null and creationdate!=''">
+                creationdate = #{creationdate},
+            </if>
+            <if test="email!=null and email!=''">
+                email = #{email},
+            </if>
+            <if test="password!=null and password!=''">
+                password = #{password}
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--find-->
+    <select id="getEntityById" parameterType="int" resultType="com.web.entity.User">
+        select
+        id, instCoderId, creationDate, email, password
+        from inst_user
+        where id = #{id}
+    </select>
+
+    <select id="listBatch"  resultType="com.web.entity.User">
+        select * from inst_user
+        <where>
+            <if test="param1.instcoderid !=0">
+                AND inst_user.instcoderid = #{param1.instcoderid}
+            </if>
+            <if test="param1.creationdate !=null and creationdate!=''">
+                AND inst_user.creationdate = #{param1.creationdate}
+            </if>
+            <if test="param1.email !=null and email!=''">
+                AND inst_user.email = #{param1.email}
+            </if>
+            <if test="param1.password !=null and password!=''">
+                AND inst_user.password = #{param1.password}
+            </if>
+        </where>
+        limit #{param2},#{param3}
+
+    </select>
+
+    <!--count-->
+    <select id="count" parameterType="com.web.entity.User" resultType="int">
+        select count(*) from inst_user
+        <where>
+            <if test="instcoderid !=0">
+                AND inst_user.instcoderid = #{instcoderid}
+            </if>
+            <if test="creationdate !=null and creationdate!=''">
+                AND inst_user.creationdate = #{creationdate}
+            </if>
+            <if test="email !=null and email!=''">
+                AND inst_user.email = #{email}
+            </if>
+            <if test="password !=null and password!=''">
+                AND inst_user.password = #{password}
+            </if>
+        </where>
+    </select>
+
+    <select id="countAll" resultType="int">
+        select count(*) from inst_user
+    </select>
+
+
+
+</mapper>
