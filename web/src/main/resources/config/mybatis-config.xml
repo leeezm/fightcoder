@@ -5,7 +5,11 @@
 <configuration>
     <!-- 命名空间 -->
     <typeAliases>
+<<<<<<< HEAD
         <typeAlias alias="Problem" type="com.web.entity.Problem"/>
+=======
+        <!--<typeAlias alias="ContestProblem" type="com.web.entity.ContestProblem"/>-->
+>>>>>>> 3e14d19344a4cb04f84219de44313c385c442050
     </typeAliases>
 
 

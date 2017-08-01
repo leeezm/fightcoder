@@ -1,13 +1,13 @@
 package com.web.dao;
 
 import com.web.entity.BasicVo;
-
 import java.util.List;
 
 /**
- * Created by leeezm on 17-7-31.
+ * Created by tym on 17-7-31.
  */
 public interface BasicDao {
+
     //添加
     public int save(BasicVo basicVo);
 
@@ -20,8 +20,6 @@ public interface BasicDao {
 
     //修改
     public int update(BasicVo basicVo);
-
-    public int updateBatch(List<BasicVo> basicVoList);
 
     //查找
     public BasicVo getEntityById(int id);

@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.web.dao.BlogMainDao">
+
+    <!--save-->
+    <insert id="save" parameterType="com.web.entity.BlogMain">
+      insert into inst_blog_main (id, instUserId, title,createdate, content)
+      values (#{id}, #{instuserid}, #{title}, #{createdate}, #{content})
+    </insert>
+
+    <insert id="saveBatch" parameterType="java.util.List">
+        insert into inst_blog_main (id, instUserId, title,createdate, content)
+        values
+      <if test="list!=null">
+          <foreach collection="list" item="item"  separator=",">
+              (#{item.id}, #{item.instuserid}, #{item.title},
+              #{item.createdate}, #{item.content})
+          </foreach>
+      </if>
+
+    </insert>
+
+    <!--remove-->
+    <delete id="remove" parameterType="java.lang.Integer" >
+        delete from inst_blog_main
+        where id = #{id}
+    </delete>
+
+    <!--removeBatch-->
+    <delete id="removeBatch" parameterType="int">
+        delete from inst_blog_main
+        where id IN
+        <if test="array!=null">
+            <foreach collection="array" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+    </delete>
+
+    <!--update-->
+    <update id="update" parameterType="com.web.entity.BlogMain">
+        update inst_blog_main
+        <set>
+            <if test="instuserid!=0">
+                instUserId = #{instuserid},
+            </if>
+
+            <if test="title!=null and title!=''">
+                title = #{title},
+            </if>
+            <if test="createdate!=null and createdate!=''">
+                createdate = #{createdate}
+            </if>
+            <if test="content!=null and content!=''">
+                content = #{content}
+            </if>
+
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--find-->
+    <select id="getEntityById" parameterType="int" resultType="com.web.entity.BlogMain">
+        select
+        id, instUserId, title,createdate, content
+        from inst_blog_main
+        where id = #{id}
+    </select>
+
+    <select id="listBatch"  resultType="com.web.entity.BlogMain">
+        select * from inst_blog_main
+        <where>
+            <if test="param1.instuserid !=0">
+                AND inst_blog_main.instuserId = #{param1.instuserid}
+            </if>
+            <if test="param1.title !=null and title!=''">
+                AND inst_blog_main.title = #{param1.title}
+            </if>
+            <if test="param1.createdate !=null and createdate!=''">
+                AND inst_blog_main.createdate = #{param1.createdate}
+            </if>
+            <if test="param1.content !=null and content!=''">
+                AND inst_blog_main.content = #{param1.content}
+            </if>
+
+        </where>
+        limit #{param2},#{param3}
+
+    </select>
+
+    <!--count-->
+    <select id="count" parameterType="com.web.entity.BlogMain" resultType="int">
+        select count(*) from inst_blog_main
+        <where>
+            <if test="instuserid !=0">
+                AND inst_blog_main.instuserId = #{instuserid}
+            </if>
+            <if test="title !=null and title!=''">
+                AND inst_blog_main.title = #{title}
+            </if>
+            <if test="createdate !=null and createdate!=''">
+                AND inst_blog_main.createdate = #{createdate}
+            </if>
+            <if test="content !=null and content!=''">
+                AND inst_blog_main.content = #{content}
+            </if>
+        </where>
+    </select>
+
+    <select id="countAll" resultType="int">
+        select count(*) from inst_blog_main
+    </select>
+
+
+
+</mapper>

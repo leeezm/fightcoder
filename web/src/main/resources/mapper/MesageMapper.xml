@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.web.dao.MessageDao">
+
+    <!--save-->
+    <insert id="save" parameterType="com.web.entity.Message">
+      insert into inst_message (id, sendid, recieveid, sendtime, content)
+      values (#{id}, #{sendid}, #{recieveid}, #{sendtime}, #{content})
+    </insert>
+
+    <insert id="saveBatch" parameterType="java.util.List">
+        insert into inst_message (id, sendid, recieveid, sendtime, content)
+        values
+      <if test="list!=null">
+          <foreach collection="list" item="item"  separator=",">
+              (#{item.id}, #{item.sendid}, #{item.recieveid},
+              #{item.sendtime}, #{item.content})
+          </foreach>
+      </if>
+
+    </insert>
+
+    <!--remove-->
+    <delete id="remove" parameterType="java.lang.Integer" >
+        delete from inst_message
+        where id = #{id}
+    </delete>
+
+    <!--removeBatch-->
+    <delete id="removeBatch" parameterType="int">
+        delete from inst_message
+        where id IN
+        <if test="array!=null">
+            <foreach collection="array" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+    </delete>
+
+    <!--update-->
+    <update id="update" parameterType="com.web.entity.Message">
+        update inst_message
+        <set>
+            <if test="sendid!=0">
+                sendid = #{sendid},
+            </if>
+            <if test="recieveid!=0">
+                recieveid = #{recieveid},
+            </if>
+            <if test="sendtime!=null and sendtime!=''">
+                sendtime = #{sendtime},
+            </if>
+            <if test="content!=null and content!=''">
+                content = #{content}
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--find-->
+    <select id="getEntityById" parameterType="int" resultType="com.web.entity.Message">
+        select
+        id, sendId, recieveid, sendtime
+        from inst_message
+        where id = #{id}
+    </select>
+
+    <select id="listBatch"  resultType="com.web.entity.Message">
+        select * from inst_message
+        <where>
+            <if test="param1.sendid !=0">
+                AND inst_message.sendid = #{param1.sendid}
+            </if>
+            <if test="param1.recieveid !=0">
+                AND inst_message.recieveid = #{param1.recieveid}
+            </if>
+            <if test="param1.sendtime !=null and sendtime!=''">
+                AND inst_message.sendtime = #{param1.sendtime}
+            </if>
+            <if test="param1.content !=null and content!=''">
+                AND inst_message.content = #{param1.content}
+            </if>
+        </where>
+        limit #{param2},#{param3}
+
+    </select>
+
+    <!--count-->
+    <select id="count" parameterType="com.web.entity.Message" resultType="int">
+        select count(*) from inst_message
+        <where>
+            <if test="sendid !=0">
+                AND inst_message.sendid = #{sendid}
+            </if>
+            <if test="recieveid !=0">
+                AND inst_message.recieveid = #{recieveid}
+            </if>
+            <if test="sendtime !=null and sendtime!=''">
+                AND inst_message.sendtime = #{sendtime}
+            </if>
+            <if test="content !=null and content!=''">
+                AND inst_message.content = #{content}
+            </if>
+        </where>
+    </select>
+
+    <select id="countAll" resultType="int">
+        select count(*) from inst_message
+    </select>
+
+
+
+</mapper>
