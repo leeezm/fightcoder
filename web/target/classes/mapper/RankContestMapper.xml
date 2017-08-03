@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.web.dao.RankContestDao">
+
+    <!--save-->
+    <insert id="save" parameterType="RankContest">
+      insert into inst_rank_contest (contestName,description,startTime,endTime,problemNum)
+      values (#{contestName}, #{description}, #{startTime}, #{endTime}, #{problemNum})
+    </insert>
+
+    <insert id="saveBatch" parameterType="java.util.List">
+        insert inst_rank_contest (contestName,description,startTime,endTime,problemNum)
+        values
+      <if test="list!=null">
+          <foreach collection="list" item="item"  separator=",">
+              (#{contestName}, #{description}, #{startTime}, #{endTime}, #{problemNum})
+          </foreach>
+      </if>
+
+    </insert>
+
+    <!--remove-->
+    <delete id="remove" parameterType="java.lang.Integer" >
+        delete from inst_rank_contest
+        where id = #{id}
+    </delete>
+
+    <!--removeBatch-->
+    <delete id="removeBatch" parameterType="int">
+        delete from inst_rank_contest
+        where id IN
+        <if test="array!=null">
+            <foreach collection="array" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+    </delete>
+
+    <!--update-->
+    <update id="update" parameterType="RankContest">
+        update inst_rank_contest
+        <set>
+            <if test="contestName!=null and contestName!=''">
+                contestName = #{contestName},
+            </if>
+            <if test="description!=null and description!=''">
+                description = #{description},
+            </if>
+            <if test="startTime!=null and startTime!=''">
+                startTime = #{startTime},
+            </if>
+            <if test="endTime!=null and endTime!=''">
+                endTime = #{endTime},
+            </if>
+            <if test="problemNum!=0">
+                problemNum = #{problemNum},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--find-->
+    <select id="getEntityById" parameterType="int" resultType="RankContest">
+        select * from inst_rank_contest
+        where id = #{id}
+    </select>
+
+    <select id="countAll" resultType="int">
+        select count(*) from inst_rank_contest
+    </select>
+
+
+
+</mapper>

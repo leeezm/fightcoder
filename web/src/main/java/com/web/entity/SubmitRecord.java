@@ -7,7 +7,7 @@ public class SubmitRecord extends BasicVo{
     private int id;                     //ID
     private int problemId;              //题目表ID
     private String title;               //题目标题
-    private int type;                   //提交类型(默认NULL:普通题,否则为contest_id)
+    private int type;                   //提交类型(默认0:普通题,否则为contest_id)
     private int instUserId;             //提交用户ID
     private int language;               //提交语言
     private String submitTime;          //提交时间

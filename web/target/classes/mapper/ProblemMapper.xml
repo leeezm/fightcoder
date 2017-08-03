@@ -7,91 +7,31 @@
 
     <!-- save语句 -->
     <insert id="save" parameterType="Problem" >
-
-        insert into dict_problem(
-        problemType,
-        problemAlgorithmId,
-        problemStructureId,
-        problemDifficultyId,
-        title,
-        description,
-        inputDescription,
-        outputDescription,
-        rangeHints,
-        inputTest,
-        outputTest,
-        timeLimit,
-        memoryLimit
-        )
-        values
-        (
-        #{problemType},
-        SELECT id FROM dict_problem_algorithm WHERE dict_problem_algorithm.type = #{problemAlgorithmId},
-        SELECT id FROM dict_problem_structure WHERE dict_problem_structure.type = #{problemStructureId},
-        SELECT id FROM dict_problem_difficulty WHERE dict_problem_difficulty.type = #{problemDifficultyId},
-        #{title},
-        #{description},
-        #{inputDescription},
-        #{outputDescription},
-        #{rangeHints},
-        #{inputTest},
-        #{outputTest},
-        #{timeLimit},
-        #{memoryLimit}
-        )
-    </insert>
-
-    <insert id="saveBatch" parameterType="java.util.List" keyProperty="problem_id">
-
-        <selectKey resultType="java.lang.Integer" keyProperty="problem_id" order="AFTER" >
-            SELECT @@IDENTITY
-        </selectKey>
-
-        insert into problem(
-        problem_type,
-        algorithm,
-        data_structure,
-        difficulty,
-        title,
-        description,
-        input_description,
-        output_description,
-        input_test,
-        output_test,
-        data_area,
-        add_time,
-        time_limit,
-        memory_limit)
-        values
-        <foreach collection="list" index="index" item="item" separator=",">
-            (#{item.problem_type},
-            #{item.algorithm},
-            #{item.data_structure},
-            #{item.difficulty},
-            #{item.title},
-            #{item.description},
-            #{item.input_description},
-            #{item.output_description},
-            #{item.input_test},
-            #{item.output_test},
-            #{item.data_area},
-            #{item.add_time},
-            #{item.time_limit},
-            #{item.memory_limit}
-            )
-        </foreach>
-
+        insert into dict_problem SET
+        problemType =  #{problemType},
+        problemAlgorithmId = (SELECT id FROM dict_problem_algorithm WHERE dict_problem_algorithm.type = #{problemAlgorithm} ),
+        problemStructureId = (SELECT id FROM dict_problem_structure WHERE dict_problem_structure.type = #{problemStructure} ),
+        problemDifficultyId = (SELECT id FROM dict_problem_difficulty WHERE dict_problem_difficulty.type = #{problemDifficulty}),
+        title = #{title},
+        description = #{description},
+        inputDescription = #{inputDescription},
+        outputDescription = #{outputDescription},
+        rangeHints = #{rangeHints},
+        inputTest = #{inputTest},
+        outputTest = #{outputTest},
+        timeLimit = #{timeLimit},
+        memoryLimit = #{memoryLimit}
     </insert>
 
     <!-- remove语句 -->
     <delete id="remove" parameterType="int">
-        delete from problem
-        where problem_id=#{problem_id}
+        delete from dict_problem
+        where id=#{id}
     </delete>
 
     <delete id="removeBatch" parameterType="int">
-        delete from problem
-        where problem_id IN
+        delete from dict_problem
+        where id IN
         <foreach collection="array" index="index" item="item" open="(" separator="," close=")">
             #{item}
         </foreach>
@@ -99,19 +39,19 @@
 
     <!-- update语句 -->
     <update id="update" parameterType="Problem">
-        update problem
+        update dict_problem
         <set>
-            <if test="problem_type!=null and problem_type!='' ">
-                problem_type=#{problem_type},
+            <if test="problemType>=0">
+                problemType=#{problemType},
             </if>
-            <if test="algorithm!=null and algorithm!='' ">
-                algorithm=#{algorithm},
+            <if test="problemAlgorithm!=null and problemAlgorithm!='' ">
+                problemAlgorithmId=(SELECT id FROM dict_problem_algorithm WHERE dict_problem_algorithm.type = #{problemAlgorithm}),
             </if>
-            <if test="data_structure!=null and data_structure!='' ">
-                data_structure=#{data_structure},
+            <if test="problemStructure!=null and problemStructure!='' ">
+                problemStructureId=(SELECT id FROM dict_problem_structure WHERE dict_problem_structure.type = #{problemStructure}),
             </if>
-            <if test="difficulty!=null and difficulty!='' ">
-                difficulty=#{difficulty},
+            <if test="problemDifficulty!=null and problemDifficulty!='' ">
+                problemDifficultyId=(SELECT id FROM dict_problem_difficulty WHERE dict_problem_difficulty.type = #{problemDifficulty}),
             </if>
             <if test="title!=null and title!='' ">
                 title=#{title},
@@ -119,78 +59,58 @@
             <if test="description!=null and description!='' ">
                 description=#{description},
             </if>
-            <if test="input_description!=null and input_description!='' ">
-                input_description=#{input_description},
+            <if test="inputDescription!=null and inputDescription!='' ">
+                inputDescription=#{inputDescription},
             </if>
-            <if test="output_description!=null and output_description!='' ">
-                output_description=#{output_description},
+            <if test="outputDescription!=null and outputDescription!='' ">
+                outputDescription=#{outputDescription},
             </if>
-            <if test="input_test!=null and input_test!='' ">
-                input_test=#{input_test},
+            <if test="rangeHints!=null and rangeHints!='' ">
+                rangeHints=#{rangeHints},
             </if>
-            <if test="output_test!=null and output_test!='' ">
-                output_test=#{output_test},
+            <if test="inputTest!=null and inputTest!='' ">
+                inputTest=#{inputTest},
             </if>
-            <if test="data_area!=null and data_area!='' ">
-                data_area=#{data_area},
+            <if test="outputTest!=null and outputTest!='' ">
+                outputTest=#{outputTest},
             </if>
-            <if test="add_time!=null and add_time!='' ">
-                add_time=#{add_time},
+            <if test="timeLimit!=0 ">
+                timeLimit=#{timeLimit},
             </if>
-            <if test="time_limit!=0">
-                time_limit=#{time_limit},
-            </if>
-            <if test="memory_limit!=0">
-                memory_limit=#{memory_limit},
+            <if test="memoryLimit!=0 ">
+                memoryLimit=#{memoryLimit},
             </if>
         </set>
-        where problem_id=#{problem_id}
-    </update>
-
-    <update id="updateBatch" parameterType="java.util.List">
-        <foreach collection="list" item="item" index="index"  separator=";">
-            update problem
-            <set>
-                problem_type=#{item.problem_type},
-                algorithm=#{item.algorithm},
-                data_structure=#{item.data_structure},
-                difficulty=#{item.difficulty},
-                title=#{item.title},
-                description=#{item.description},
-                input_description=#{item.input_description},
-                output_description=#{item.output_description},
-                input_test=#{item.input_test},
-                output_test=#{item.output_test},
-                data_area=#{item.data_area},
-                add_time=#{item.add_time},
-                time_limit=#{item.time_limit},
-                memory_limit=#{item.memory_limit}
-            </set>
-            where problem_id=#{item.problem_id}
-        </foreach>
+        where id=#{id}
     </update>
 
     <!-- select语句 -->
     <select id="getEntityById" parameterType="int" resultType="Problem">
-        select * from problem
-        where problem_id=#{problem_id}
+        select p.id,problemtype,a.type as problemAlgorithm,s.type as problemStructure,d.type as problemDifficulty,title,description,inputDescription,outputDescription,rangeHints,inputTest,outputTest,timeLimit,memoryLimit from dict_problem as p
+        inner join dict_problem_algorithm as a on p.problemAlgorithmId=a.id
+        inner join dict_problem_structure as s on p.problemStructureId=s.id
+        inner join dict_problem_difficulty as d on p.problemDifficultyId=d.id
+        where p.id=#{id}
     </select>
 
     <select id="listBatch" resultType="Problem">
-        SELECT * from problem
+        select p.id,problemtype,a.type as problemAlgorithm,s.type as problemStructure,d.type as problemDifficulty,title,description,inputDescription,outputDescription,rangeHints,inputTest,outputTest,timeLimit,memoryLimit from dict_problem as p
+        inner join dict_problem_algorithm as a on p.problemAlgorithmId=a.id
+        inner join dict_problem_structure as s on p.problemStructureId=s.id
+        inner join dict_problem_difficulty as d on p.problemDifficultyId=d.id
         <where>
-            problem_type=#{param1.problem_type}
+            problemType=#{param1.problemType}
             <if test="param1.title!=null and param1.title!='' ">
-                AND problem.title LIKE CONCAT(#{param1.title},'%')
+                AND p.title LIKE CONCAT(#{param1.title},'%')
             </if>
-            <if test="param1.algorithm!=null and param1.algorithm!='' ">
-                AND problem.algorithm=#{param1.algorithm}
+            <if test="param1.problemAlgorithm!=null and param1.problemAlgorithm!='' ">
+                AND a.type=#{param1.problemAlgorithm}
             </if>
-            <if test="param1.data_structure!=null and param1.data_structure!='' ">
-                AND problem.data_structure=#{param1.data_structure}
+            <if test="param1.problemStructure!=null and param1.problemStructure!='' ">
+                AND s.type=#{param1.problemStructure}
             </if>
-            <if test="param1.difficulty!=null and param1.difficulty!='' ">
-                AND problem.difficulty=#{param1.difficulty}
+            <if test="param1.problemDifficulty!=null and param1.problemDifficulty!='' ">
+                AND d.type=#{param1.problemDifficulty}
             </if>
         </where>
         limit #{param2},#{param3}
@@ -198,26 +118,29 @@
 
     <!-- count语句 -->
     <select id="count" parameterType="Problem" resultType="int">
-        select count(*) from problem
+        select count(*) from dict_problem as p
+        inner join dict_problem_algorithm as a on p.problemAlgorithmId=a.id
+        inner join dict_problem_structure as s on p.problemStructureId=s.id
+        inner join dict_problem_difficulty as d on p.problemDifficultyId=d.id
         <where>
-            problem_type=#{problem_type}
+            problemType=#{problemType}
             <if test="title!=null and title!='' ">
-                AND problem.title LIKE CONCAT(#{title},'%')
+                AND p.title LIKE CONCAT(#{title},'%')
             </if>
-            <if test="algorithm!=null and algorithm!='' ">
-                AND problem.algorithm=#{algorithm}
+            <if test="problemAlgorithm!=null and problemAlgorithm!='' ">
+                AND a.type=#{problemAlgorithm}
             </if>
-            <if test="data_structure!=null and data_structure!='' ">
-                AND problem.data_structure=#{data_structure}
+            <if test="problemStructure!=null and problemStructure!='' ">
+                AND s.type=#{problemStructure}
             </if>
-            <if test="difficulty!=null and difficulty!='' ">
-                AND problem.difficulty=#{difficulty}
+            <if test="problemDifficulty!=null and problemDifficulty!='' ">
+                AND d.type=#{problemDifficulty}
             </if>
         </where>
     </select>
 
     <select id="countAll" parameterType="int" resultType="int">
-        select count(*) from problem
+        select count(*) from dict_problem
     </select>
 
 </mapper>

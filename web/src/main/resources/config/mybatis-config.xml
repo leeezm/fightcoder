@@ -4,13 +4,14 @@
         "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
     <!-- 命名空间 -->
-    <typeAliases>
-<<<<<<< HEAD
-        <typeAlias alias="Problem" type="com.web.entity.Problem"/>
-=======
-        <!--<typeAlias alias="ContestProblem" type="com.web.entity.ContestProblem"/>-->
->>>>>>> 3e14d19344a4cb04f84219de44313c385c442050
-    </typeAliases>
+<typeAliases>
+    <typeAlias alias="Problem" type="com.web.entity.Problem"/>
+    <typeAlias alias="SubmitRecord" type="com.web.entity.SubmitRecord"/>
+    <typeAlias alias="UploadProblem" type="com.web.entity.UploadProblem"/>
+    <typeAlias alias="RankContest" type="com.web.entity.RankContest"/>
+    <typeAlias alias="RankResult" type="com.web.entity.RankResult"/>
+    <typeAlias alias="SoloContest" type="com.web.entity.SoloContest"/>
+</typeAliases>
 
 
 

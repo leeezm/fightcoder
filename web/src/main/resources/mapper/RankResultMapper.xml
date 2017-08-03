@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.web.dao.RankResultDAO">
+
+    <!--save-->
+    <insert id="save" parameterType="RankResult">
+      insert into dict_rank_result (contestId,userId,account,detail)
+      values (#{contestId}, #{userId}, #{account}, #{detail})
+    </insert>
+
+    <insert id="saveBatch" parameterType="java.util.List">
+        insert into dict_rank_result (contestId,userId,account,detail)
+        values
+      <if test="list!=null">
+          <foreach collection="list" item="item"  separator=",">
+              (#{contestId}, #{userId}, #{account}, #{detail})
+          </foreach>
+      </if>
+
+    </insert>
+
+    <!--remove-->
+    <delete id="remove" parameterType="java.lang.Integer" >
+        delete from dict_rank_result
+        where id = #{id}
+    </delete>
+
+    <!--removeBatch-->
+    <delete id="removeBatch" parameterType="int">
+        delete from dict_rank_result
+        where id IN
+        <if test="array!=null">
+            <foreach collection="array" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+    </delete>
+
+    <!--update-->
+    <update id="update" parameterType="RankResult">
+        update dict_rank_result
+        <set>
+            <if test="contestId!=0">
+                contestId = #{contestId},
+            </if>
+            <if test="userId!=0">
+                userId = #{userId},
+            </if>
+            <if test="account!=0">
+                account = #{account},
+            </if>
+            <if test="detail!=null and detail!=''">
+                detail = #{detail},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--find-->
+    <select id="getEntityById" parameterType="int" resultType="RankResult">
+        select * from dict_rank_result
+        where id = #{id}
+    </select>
+
+    <select id="listBatch"  resultType="RankResult">
+        select * from dict_rank_result
+        <where>
+            <if test="param1.contestId !=0">
+                AND dict_rank_result.contestId = #{param1.contestId}
+            </if>
+            <if test="param1.userId !=0">
+                AND dict_rank_result.userId = #{param1.userId}
+            </if>
+        </where>
+        limit #{param2},#{param3}
+
+    </select>
+
+    <!--count-->
+    <select id="count" parameterType="RankResult" resultType="int">
+        select * from dict_rank_result
+        <where>
+            <if test="contestId !=0">
+                AND dict_rank_result.contestId = #{contestId}
+            </if>
+            <if test="userId!=0">
+                AND dict_rank_result.userId = #{userId}
+            </if>
+        </where>
+    </select>
+
+    <select id="countAll" resultType="int">
+        select count(*) from dict_rank_result
+    </select>
+
+
+
+</mapper>

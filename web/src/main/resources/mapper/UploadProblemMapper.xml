@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.web.dao.UploadProblemDAO">
+
+    <!-- save语句 -->
+    <insert id="save" parameterType="UploadProblem" >
+        insert into inst_push_problem SET
+        instUserId =  #{instUserId},
+        problemId =  #{problemId},
+        problemStatusId =(SELECT id FROM dict_problem_status WHERE status = #{status}),
+        addTime = #{addTime}
+    </insert>
+
+    <!-- remove语句 -->
+    <delete id="remove" parameterType="int">
+        delete from inst_push_problem
+        where id=#{id}
+    </delete>
+
+    <delete id="removeBatch" parameterType="int">
+        delete from inst_push_problem
+        where id IN
+        <foreach collection="array" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </delete>
+
+    <!-- select语句 -->
+    <select id="getEntityById" parameterType="int" resultType="UploadProblem">
+        select p.id,instUserId,problemId,s.status,addTime from inst_push_problem as p
+        inner join dict_problem_status as s on s.id = p.problemStatusId
+        where p.id=#{id}
+    </select>
+
+    <select id="listBatch" resultType="UploadProblem">
+        select p.id,instUserId,problemId,s.status,addTime from inst_push_problem as p
+        inner join dict_problem_status as s on s.id = p.problemStatusId
+        <where>
+            <if test="param1.instUserId!=0 ">
+                AND p.instUserId=#{param1.instUserId}
+            </if>
+            <if test="param1.status!=null and param1.status!='' ">
+                AND p.problemStatusId =(SELECT id from dict_problem_status where status = #{param1.status})
+            </if>
+        </where>
+        limit #{param2},#{param3}
+    </select>
+
+    <!-- count语句 -->
+    <select id="count" parameterType="SubmitRecord" resultType="int">
+        select count(*) from inst_push_problem as p
+        inner join dict_problem_status as s on s.id = p.problemStatusId
+        <where>
+            <if test="instUserId!=0 ">
+                AND p.instUserId=#{instUserId}
+            </if>
+            <if test="status!=null and status!='' ">
+                AND p.problemStatusId =(SELECT id from dict_problem_status where status = #{status})
+            </if>
+        </where>
+    </select>
+
+    <select id="countAll" parameterType="int" resultType="int">
+        select count(*) from inst_push_problem
+    </select>
+
+</mapper>

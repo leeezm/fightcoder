@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.web.dao.SoloContestDAO">
+
+    <!--save-->
+    <insert id="save" parameterType="SoloContest">
+        insert into inst_solo_contest (fromUserId,toUserId,startTime,endTime,problemNum,result,detail)
+        values (#{fromUserId}, #{toUserId}, #{startTime}, #{endTime}, #{problemNum}, #{result}, #{detail})
+    </insert>
+
+    <insert id="saveBatch" parameterType="java.util.List">
+        insert into inst_solo_contest (fromUserId,toUserId,startTime,endTime,problemNum,result,detail)
+        values
+        <if test="list!=null">
+            <foreach collection="list" item="item"  separator=",">
+                (#{fromUserId}, #{toUserId}, #{startTime}, #{endTime}, #{problemNum}, #{result}, #{detail})
+            </foreach>
+        </if>
+
+    </insert>
+
+    <!--remove-->
+    <delete id="remove" parameterType="java.lang.Integer" >
+        delete from inst_solo_contest
+        where id = #{id}
+    </delete>
+
+    <!--removeBatch-->
+    <delete id="removeBatch" parameterType="int">
+        delete from inst_solo_contest
+        where id IN
+        <if test="array!=null">
+            <foreach collection="array" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+    </delete>
+
+    <!--update-->
+    <update id="update" parameterType="SoloContest">
+        update inst_solo_contest
+        <set>
+            <if test="fromUserId!=0">
+                fromUserId = #{fromUserId},
+            </if>
+            <if test="toUserId!=0">
+                toUserId = #{toUserId},
+            </if>
+            <if test="startTime!=null and startTime!=''">
+                startTime = #{startTime},
+            </if>
+            <if test="endTime!=null and endTime!=''">
+                endTime = #{endTime},
+            </if>
+            <if test="problemNum!=0">
+                problemNum = #{problemNum},
+            </if>
+            <if test="result!=0">
+                result = #{result},
+            </if>
+            <if test="detail!=null and detail!=''">
+                detail = #{detail},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--find-->
+    <select id="getEntityById" parameterType="int" resultType="SoloContest">
+        select * from inst_solo_contest
+        where id = #{id}
+    </select>
+
+    <select id="listBatch"  resultType="SoloContest">
+        select * from inst_solo_contest
+        <where>
+            <if test="param1.fromUserId !=0">
+                AND dict_rank_result.fromUserId = #{param1.fromUserId}
+            </if>
+            <if test="param1.toUserId !=0">
+                AND dict_rank_result.toUserId = #{param1.toUserId}
+            </if>
+            <if test="param1.result !=0">
+                AND dict_rank_result.result = #{param1.result}
+            </if>
+        </where>
+        limit #{param2},#{param3}
+
+    </select>
+
+    <!--count-->
+    <select id="count" parameterType="SoloContest" resultType="int">
+        select * from inst_solo_contest
+        <where>
+            <if test="param1.fromUserId !=0">
+                AND dict_rank_result.fromUserId = #{param1.fromUserId}
+            </if>
+            <if test="param1.toUserId !=0">
+                AND dict_rank_result.toUserId = #{param1.toUserId}
+            </if>
+            <if test="param1.result !=0">
+                AND dict_rank_result.result = #{param1.result}
+            </if>
+        </where>
+    </select>
+
+    <select id="countAll" resultType="int">
+        select count(*) from inst_solo_contest
+    </select>
+
+
+
+</mapper>

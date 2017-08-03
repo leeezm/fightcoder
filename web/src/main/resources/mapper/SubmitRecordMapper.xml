@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.web.dao.SubmitRecordDAO">
+
+    <!-- save语句 -->
+    <insert id="save" parameterType="SubmitRecord" >
+        insert into inst_submit SET
+        problemId =  #{problemId},
+        inst_submit.type =  #{type},
+        instUserId = #{instUserId},
+        inst_submit.language = #{language},
+        submitTime = #{submitTime},
+        runningTime = #{runningTime},
+        runningMemory = #{runningMemory},
+        submitResultId = (SELECT id FROM dict_submit_result WHERE dict_submit_result.result = #{result} ),
+        resultDescription = #{resultDescription},
+        code = #{code}
+    </insert>
+
+    <!-- remove语句 -->
+    <delete id="remove" parameterType="int">
+        delete from inst_submit
+        where id=#{id}
+    </delete>
+
+    <delete id="removeBatch" parameterType="int">
+        delete from inst_submit
+        where id IN
+        <foreach collection="array" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </delete>
+
+    <!-- select语句 -->
+    <select id="getEntityById" parameterType="int" resultType="SubmitRecord">
+        select s.id,problemId,p.title,s.type,instUserId,s.language,submitTime,runningTime,runningMemory,sr.result,resultDescription,code from inst_submit as s
+        inner join dict_problem as p on p.id = s.problemId
+        inner join dict_submit_result as sr on sr.id=s.submitResultId
+        where s.id=#{id}
+    </select>
+
+    <select id="listBatch" resultType="SubmitRecord">
+        select s.id,problemId,p.title,s.type,instUserId,s.language,submitTime,runningTime,runningMemory,sr.result,resultDescription,code from inst_submit as s
+        inner join dict_problem as p on p.id = s.problemId
+        inner join dict_submit_result as sr on sr.id=s.submitResultId
+        <where>
+            s.type=#{param1.type}
+            <if test="param1.problemId!=0 ">
+                AND s.problemId=#{param1.problemId}
+            </if>
+            <if test="param1.instUserId!=0 ">
+                AND s.instUserId=#{param1.instUserId}
+            </if>
+            <if test="param1.language!=0 ">
+                AND s.language=#{param1.language}
+            </if>
+            <if test="param1.result!=null and param1.result!='' ">
+                AND s.submitResultId =(SELECT id from dict_submit_result where result = #{param1.result})
+            </if>
+        </where>
+        limit #{param2},#{param3}
+    </select>
+
+    <!-- count语句 -->
+    <select id="count" parameterType="SubmitRecord" resultType="int">
+        select count(*) from inst_submit as s
+        inner join dict_problem as p on p.id = s.problemId
+        inner join dict_submit_result as sr on sr.id=s.submitResultId
+        <where>
+            s.type=#{type}
+            <if test="problemId!=0 ">
+                AND s.problemId=#{problemId}
+            </if>
+            <if test="instUserId!=0 ">
+                AND s.instUserId=#{instUserId}
+            </if>
+            <if test="language!=0 ">
+                AND s.language=#{language}
+            </if>
+            <if test="result!=null and result!='' ">
+                AND s.submitResultId =(SELECT id from dict_submit_result where result = #{result})
+            </if>
+        </where>
+    </select>
+
+    <select id="countAll" parameterType="int" resultType="int">
+        select count(*) from inst_submit
+    </select>
+
+</mapper>

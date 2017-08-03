@@ -6,7 +6,7 @@ package com.web.entity;
 public class UploadProblem extends BasicVo{
     private int id;             //ID
     private int instUserId;     //题目上传者ID
-    private int problemId;      //题目实例表ID
+    private int problemId;      //题目实例表ID(problemType=-1)
     private String status;      //状态(待审核,已采纳,未采纳)
     private String addTime;     //上传日期
 

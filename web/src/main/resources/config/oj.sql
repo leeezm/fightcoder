@@ -1,4 +1,3 @@
-
 /*
 Navicat MySQL Data Transfer
 Source Server         : local
@@ -11,9 +10,43 @@ File Encoding         : 65001
 Date: 2017-07-19 21:20:00
 */
 
-DROP DATABASE IF EXISTS `oj`; 
-CREATE DATABASE `oj`;
-USE `oj`;
+DROP DATABASE IF EXISTS `ojtest`; 
+CREATE DATABASE `ojtest`;
+USE `ojtest`;
+
+DROP TABLE IF EXISTS `inst_solo_contest`;
+CREATE TABLE `inst_solo_contest` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID',
+  `fromUserId` int(10) DEFAULT NULL COMMENT '挑战ID',
+  `toUserId` int(10) DEFAULT NULL COMMENT '守擂ID',
+  `startTime` varchar(50) DEFAULT NULL COMMENT '开始时间(年月日时分)',
+  `endTime` varchar(50) DEFAULT NULL COMMENT '结束时间',
+  `problemNum` int(10) DEFAULT NULL COMMENT '试题的总数',
+  `result` int(10) DEFAULT NULL COMMENT '0:挑战方获胜,1:守擂方获胜,2:平局',
+  `detail` varchar(50) DEFAULT NULL COMMENT '比赛结果详情(各自AC的题目个数)',
+  PRIMARY KEY (`id`) 
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='solo竞赛实例表';
+
+DROP TABLE IF EXISTS `dict_rank_result`;
+CREATE TABLE `dict_rank_result` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID',
+  `contestId` int(10) DEFAULT NULL COMMENT 'rank比赛ID',
+  `userId` int(10) DEFAULT NULL COMMENT '用户id,帮派id',
+  `account` int(10) DEFAULT NULL COMMENT '总得分',
+  `detail` varchar(200) DEFAULT NULL COMMENT '每道题得分',
+  PRIMARY KEY (`id`) 
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='rank比赛排行榜';
+
+DROP TABLE IF EXISTS `inst_rank_contest`;
+CREATE TABLE `inst_rank_contest` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID',
+  `contestName` varchar(100) DEFAULT NULL COMMENT '大赛名称',
+  `description` varchar(255) DEFAULT NULL COMMENT '比赛描述',
+  `startTime` varchar(50) DEFAULT NULL COMMENT '开始时间(年月日时分)',
+  `endTime` varchar(50) DEFAULT NULL COMMENT '结束时间',
+  `problemNum` int(10) DEFAULT NULL COMMENT '试题的总数',
+  PRIMARY KEY (`id`) 
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='竞赛实例表';
 
 DROP TABLE IF EXISTS `inst_blog_main`;
 CREATE TABLE `inst_blog_main` (
@@ -124,7 +157,6 @@ CREATE TABLE `dict_problem_structure` (
   PRIMARY KEY (`id`) 
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='数据结构字典表';
 
-
 DROP TABLE IF EXISTS `dict_submit_result`;
 CREATE TABLE `dict_submit_result` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID',
@@ -138,64 +170,6 @@ CREATE TABLE `dict_problem_status` (
   `status` varchar(50) DEFAULT NULL COMMENT '状态(待审和,已采纳,未采纳)',
   PRIMARY KEY (`id`) 
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='上传状态字典表';
-
-DROP TABLE IF EXISTS `inst_contest_solo_user`;
-CREATE TABLE `inst_contest_solo_user` (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID',
-  `fromUserId` int(10) DEFAULT NULL COMMENT '挑战者ID',
-  `toUserId` int(10) DEFAULT NULL COMMENT '守擂者ID',
-  PRIMARY KEY (`id`) 
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='参赛者实例表(单人或帮派solo)';
-
-DROP TABLE IF EXISTS `inst_contest_rank_user`;
-CREATE TABLE `inst_contest_rank_user` (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID',
-  `contestList` text COMMENT '参赛者(使用用户或帮派ID,用;分隔)',
-  PRIMARY KEY (`id`) 
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='参赛者实例表(普通或多帮派比赛)';
-
-DROP TABLE IF EXISTS `dict_contest_solo_result`;
-CREATE TABLE `dict_contest_solo_result` (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID',
-  `result` int(10) DEFAULT NULL COMMENT '0:挑战方获胜,1:守擂方获胜,2:平局',
-  `fromDetail` varchar(50) DEFAULT NULL COMMENT '挑战者竞赛结果详情:依次获取每道题的最好结果(运行结果字典表ID)',
-  `toDetail` varchar(50) DEFAULT NULL COMMENT '守擂者竞赛结果详情',
-  PRIMARY KEY (`id`) 
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='结果字典表(单人或帮派solo)';
-
-/*
-待完善
-*/
-DROP TABLE IF EXISTS `dict_contest_rank_result`;
-CREATE TABLE `dict_contest_rank_result` (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID',
-  `ranking` text COMMENT '排名',
-  PRIMARY KEY (`id`) 
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='结果字典表(普通或多帮派比赛)';
-
-
-DROP TABLE IF EXISTS `inst_contest`;
-CREATE TABLE `inst_contest` (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID',
-  `contestType` int(10) DEFAULT NULL COMMENT '比赛类型(1:单人solo,2:帮派solo,3:普通比赛,4:多帮派比赛)',
-  `instContestUser` int(10) DEFAULT NULL COMMENT '参赛者(类型为1,2:存储inst_contest_solo_user表ID,类型为3,4:存储inst_contest_rank_user表ID)',
-  `contestName` varchar(100) DEFAULT NULL COMMENT '大赛名称',
-  `description` varchar(255) DEFAULT NULL COMMENT '比赛描述',
-  `startTime` varchar(50) DEFAULT NULL COMMENT '开始时间(年月日时分)',
-  `endTime` varchar(50) DEFAULT NULL COMMENT '结束时间',
-  `problemNum` int(10) DEFAULT NULL COMMENT '试题的总数',
-  `contestResult` int(10) DEFAULT NULL COMMENT '比赛结果',
-  PRIMARY KEY (`id`) 
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='竞赛实例表';
-
-DROP TABLE IF EXISTS `dict_contest_problem`;
-CREATE TABLE `dict_contest_problem` (
-  `id` int(10) NOT NULL auto_increment COMMENT 'ID',
-  `problemId` int(10) DEFAULT NULL COMMENT '题目表ID',
-  `instContestId` int(10) DEFAULT NULL COMMENT '竞赛表ID',
-  `num` int(10) unsigned DEFAULT NULL COMMENT '竞赛中的题目编号',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='竞赛题目字典表';
 
 DROP TABLE IF EXISTS `inst_push_problem`;
 CREATE TABLE `inst_push_problem` (
@@ -211,7 +185,7 @@ CREATE TABLE `inst_push_problem` (
 DROP TABLE IF EXISTS `dict_problem`;
 CREATE TABLE `dict_problem` (
   `id` int(10) NOT NULL auto_increment COMMENT 'ID',
-  `problemType` int(10) DEFAULT NULL COMMENT '题目类型(默认NULL:普通题,否则为contest_id:默认不显示竞赛题目)',
+  `problemType` int(10) DEFAULT 0 COMMENT '题目类型(默认0:普通题,否则为contest_id:默认不显示竞赛题目)',
   `problemAlgorithmId` int(11) DEFAULT NULL COMMENT '算法字典表ID',
   `problemStructureId` int(11) DEFAULT NULL COMMENT '数据结构字典表ID',
   `problemDifficultyId` int(11) DEFAULT NULL COMMENT '难度字典表ID',
@@ -222,8 +196,8 @@ CREATE TABLE `dict_problem` (
   `rangeHints` text COMMENT '数据范围及提示',
   `inputTest` text COMMENT '样例输入',
   `outputTest` text COMMENT '样例输出',
-  `timeLimit` int(10) DEFAULT NULL COMMENT '限时(ms)',
-  `memoryLimit` int(10) DEFAULT NULL COMMENT '空间限制',
+  `timeLimit` int(10) DEFAULT 0 COMMENT '限时(ms)',
+  `memoryLimit` int(10) DEFAULT 0 COMMENT '空间限制',
   PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT = 1001 DEFAULT CHARSET=utf8 COMMENT='题目字典表';
 
@@ -239,7 +213,7 @@ DROP TABLE IF EXISTS `inst_submit`;
 CREATE TABLE `inst_submit` (
   `id` int(10) NOT NULL auto_increment COMMENT 'ID',
   `problemId` int(10) DEFAULT NULL COMMENT '题目表ID',
-  `type` int(10) DEFAULT NULL COMMENT '提交类型(默认NULL:普通题,否则为contest_id)',
+  `type` int(10) DEFAULT 0 COMMENT '提交类型(默认0:普通题,否则为contest_id)',
   `instUserId` int(10) DEFAULT NULL COMMENT '提交用户ID',
   `language` int(10) DEFAULT NULL COMMENT '提交语言',
   `submitTime` varchar(50) DEFAULT NULL COMMENT '提交时间',

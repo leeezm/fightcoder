@@ -5,10 +5,10 @@ package com.web.entity;
  */
 public class Problem extends BasicVo{
     private int id;                         //ID
-    private int problemType;                //题目类型(默认NULL:普通题,否则为contest_id:默认不显示竞赛题目)
-    private String problemAlgorithmId;      //算法字典表ID
-    private String problemStructureId;      //数据结构字典表ID
-    private String problemDifficultyId;     //难度字典表ID
+    private int problemType;                //题目类型(-1:待审核题目,默认0:普通题,否则为contest_id:默认不显示竞赛题目)
+    private String problemAlgorithm;      //算法字典表ID
+    private String problemStructure;      //数据结构字典表ID
+    private String problemDifficulty;     //难度字典表ID
     private String title;                   //标题
     private String description;             //题目描述
     private String inputDescription;        //输入描述
@@ -21,12 +21,12 @@ public class Problem extends BasicVo{
 
     public Problem(){}
 
-    public Problem(int id, int problemType, String problemAlgorithmId, String problemStructureId, String problemDifficultyId, String title, String description, String inputDescription, String outputDescription, String rangeHints, String inputTest, String outputTest, int timeLimit, int memoryLimit) {
+    public Problem(int id, int problemType, String problemAlgorithm, String problemStructure, String problemDifficulty, String title, String description, String inputDescription, String outputDescription, String rangeHints, String inputTest, String outputTest, int timeLimit, int memoryLimit) {
         this.id = id;
         this.problemType = problemType;
-        this.problemAlgorithmId = problemAlgorithmId;
-        this.problemStructureId = problemStructureId;
-        this.problemDifficultyId = problemDifficultyId;
+        this.problemAlgorithm = problemAlgorithm;
+        this.problemStructure = problemStructure;
+        this.problemDifficulty = problemDifficulty;
         this.title = title;
         this.description = description;
         this.inputDescription = inputDescription;
@@ -54,28 +54,28 @@ public class Problem extends BasicVo{
         this.problemType = problemType;
     }
 
-    public String getProblemAlgorithmId() {
-        return problemAlgorithmId;
+    public String getProblemAlgorithm() {
+        return problemAlgorithm;
     }
 
-    public void setProblemAlgorithmId(String problemAlgorithmId) {
-        this.problemAlgorithmId = problemAlgorithmId;
+    public void setProblemAlgorithm(String problemAlgorithm) {
+        this.problemAlgorithm = problemAlgorithm;
     }
 
-    public String getProblemStructureId() {
-        return problemStructureId;
+    public String getProblemStructure() {
+        return problemStructure;
     }
 
-    public void setProblemStructureId(String problemStructureId) {
-        this.problemStructureId = problemStructureId;
+    public void setProblemStructure(String problemStructure) {
+        this.problemStructure = problemStructure;
     }
 
-    public String getProblemDifficultyId() {
-        return problemDifficultyId;
+    public String getProblemDifficulty() {
+        return problemDifficulty;
     }
 
-    public void setProblemDifficultyId(String problemDifficultyId) {
-        this.problemDifficultyId = problemDifficultyId;
+    public void setProblemDifficulty(String problemDifficulty) {
+        this.problemDifficulty = problemDifficulty;
     }
 
     public String getTitle() {
