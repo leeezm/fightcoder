@@ -10,9 +10,9 @@ File Encoding         : 65001
 Date: 2017-07-19 21:20:00
 */
 
-DROP DATABASE IF EXISTS `ojtest`; 
-CREATE DATABASE `ojtest`;
-USE `ojtest`;
+DROP DATABASE IF EXISTS `oj`;
+CREATE DATABASE `oj`;
+USE `oj`;
 
 DROP TABLE IF EXISTS `inst_solo_contest`;
 CREATE TABLE `inst_solo_contest` (

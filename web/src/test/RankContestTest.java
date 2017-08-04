@@ -7,9 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Created by tym on 17-8-1.
  */
@@ -24,25 +21,25 @@ public class RankContestTest {
     @Test
     public void test(){
 
-        RankContest rankContest = new RankContest(0,"aa","这是比赛","22","22",12);
-        rankContestDAO.save(rankContest);
+//        RankContest rankContest = new RankContest(0,"aa","这是比赛","22","22",12);
+//        rankContestDAO.save(rankContest);
+//
+//        RankContest rankContest1 = new RankContest(0,"bb","这是","22","22",12);
+//        RankContest rankContest2 = new RankContest(0,"cc","这是","22","22",12);
+//
+//        List<BasicVo> list = new ArrayList<BasicVo>();
+//        list.add(rankContest1);
+//        list.add(rankContest2);
+//        rankContestDAO.saveBatch(list);
 
-        RankContest rankContest1 = new RankContest(0,"bb","这是","22","22",12);
-        RankContest rankContest2 = new RankContest(0,"cc","这是","22","22",12);
 
-        List<BasicVo> list = new ArrayList<BasicVo>();
-        list.add(rankContest1);
-        list.add(rankContest2);
-        rankContestDAO.saveBatch(list);
+//        rankContestDAO.remove(1);
+//        int[] a={2,3};
+//        rankContestDAO.removeBatch(a);
 
-
-        rankContestDAO.remove(1);
-        int[] a={2,3};
-        rankContestDAO.removeBatch(a);
-
-        rankContestDAO.getEntityById(5);
-
-        RankContest rank = new RankContest(0,"a","b","c","d",10);
+//        rankContestDAO.getEntityById(4);
+//
+        RankContest rank = new RankContest(4,"a","b","c","d",10);
         rankContestDAO.update(rank);
     }
 }

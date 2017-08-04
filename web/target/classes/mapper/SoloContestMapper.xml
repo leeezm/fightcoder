@@ -3,37 +3,34 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.web.dao.CoderDao">
+<mapper namespace="com.web.dao.SoloContestDAO">
 
     <!--save-->
-    <insert id="save" parameterType="com.web.entity.Coder">
-      insert into inst_coder (id, picture, nickname, email, age, sex, fame, following,followers,instFactionId, school)
-      values (#{id}, #{picture}, #{nickname}, #{email}, #{age},#{sex},#{fame},#{following},#{followers},#{instfactionid},#{school})
+    <insert id="save" parameterType="SoloContest">
+        insert into inst_solo_contest (fromUserId,toUserId,startTime,endTime,problemNum,result,detail)
+        values (#{fromUserId}, #{toUserId}, #{startTime}, #{endTime}, #{problemNum}, #{result}, #{detail})
     </insert>
 
     <insert id="saveBatch" parameterType="java.util.List">
-        insert into inst_coder (id, picture, nickname, email, age, sex, fame, following,followers, instFactionId, school)
+        insert into inst_solo_contest (fromUserId,toUserId,startTime,endTime,problemNum,result,detail)
         values
-      <if test="list!=null">
-          <foreach collection="list" item="item"  separator=",">
-              (#{item.id}, #{item.picture}, #{item.nickname},
-              #{item.email}, #{item.age}, #{item.sex}, #{item.fame},
-              #{item.following},#{item.followers}, #{item.instfactionid},
-              #{item.school})
-          </foreach>
-      </if>
+        <if test="list!=null">
+            <foreach collection="list" item="item"  separator=",">
+                (#{item.fromUserId}, #{item.toUserId}, #{item.startTime}, #{item.endTime}, #{item.problemNum}, #{item.result}, #{item.detail})
+            </foreach>
+        </if>
 
     </insert>
 
     <!--remove-->
     <delete id="remove" parameterType="java.lang.Integer" >
-        delete from inst_coder
+        delete from inst_solo_contest
         where id = #{id}
     </delete>
 
     <!--removeBatch-->
     <delete id="removeBatch" parameterType="int">
-        delete from inst_coder
+        delete from inst_solo_contest
         where id IN
         <if test="array!=null">
             <foreach collection="array" item="item" open="(" separator="," close=")">
@@ -43,77 +40,51 @@
     </delete>
 
     <!--update-->
-    <update id="update" parameterType="com.web.entity.Coder">
-        update inst_coder
+    <update id="update" parameterType="SoloContest">
+        update inst_solo_contest
         <set>
-            <if test="picture!=null and picture!=''">
-                picture = #{picture},
+            <if test="fromUserId!=0">
+                fromUserId = #{fromUserId},
             </if>
-            <if test="nickname!=null and nickname!=''">
-                nickname = #{nickname},
+            <if test="toUserId!=0">
+                toUserId = #{toUserId},
             </if>
-            <if test="email!=null and email!=''">
-                email = #{email},
+            <if test="startTime!=null and startTime!=''">
+                startTime = #{startTime},
             </if>
-            <if test="age!=0">
-                age = #{age},
+            <if test="endTime!=null and endTime!=''">
+                endTime = #{endTime},
             </if>
-            <if test="sex!=0">
-                sex = #{sex},
+            <if test="problemNum!=0">
+                problemNum = #{problemNum},
             </if>
-            <if test="fame!=0">
-                fame = #{fame},
+            <if test="result!=0">
+                result = #{result},
             </if>
-            <if test="following!=null and following!=''">
-                following = #{following},
-            </if>
-            <if test="followers!=null and followers!=''">
-                followers = #{followers},
-            </if>
-            <if test="instfactionid!=0">
-                instfactionid = #{instfactionid},
-            </if>
-            <if test="school!=null and school!=''">
-                school = #{school}
+            <if test="detail!=null and detail!=''">
+                detail = #{detail},
             </if>
         </set>
         where id = #{id}
     </update>
 
     <!--find-->
-    <select id="getEntityById" parameterType="int" resultType="com.web.entity.Coder">
-        select
-        id, picture, nickname, email, age, sex, fame, instFactionId, school
-        from inst_coder
+    <select id="getEntityById" parameterType="int" resultType="SoloContest">
+        select * from inst_solo_contest
         where id = #{id}
     </select>
 
-    <select id="listBatch"  resultType="com.web.entity.Coder">
-        select * from inst_coder
+    <select id="listBatch"  resultType="SoloContest">
+        select * from inst_solo_contest
         <where>
-            <if test="param1.picture !=0">
-                AND inst_coder.picture = #{param1.picture}
+            <if test="param1.fromUserId !=0">
+                AND dict_rank_result.fromUserId = #{param1.fromUserId}
             </if>
-            <if test="param1.nickname !=0">
-                AND inst_coder.nickname = #{param1.nickname}
+            <if test="param1.toUserId !=0">
+                AND dict_rank_result.toUserId = #{param1.toUserId}
             </if>
-            <if test="param1.email !=null and param1.email!=''">
-                AND inst_coder.email = #{param1.email}
-            </if>
-            <if test="param1.age !=null and param1.age!=''">
-                AND inst_coder.age = #{param1.age}
-            </if>
-            <if test="param1.sex !=null and param1.sex!=''">
-                AND inst_coder.sex = #{param1.sex}
-            </if>
-            <if test="param1.fame !=null and param1.fame!=''">
-                AND inst_coder.fame = #{param1.fame}
-            </if>
-            <if test="param1.instfactionid !=null and param1.instfactionid!=''">
-                AND inst_coder.instfactionid = #{param1.instfactionid}
-            </if>
-            <if test="param1.school !=null and param1.school!=''">
-                AND inst_coder.school = #{param1.school}
+            <if test="param1.result !=0">
+                AND dict_rank_result.result = #{param1.result}
             </if>
         </where>
         limit #{param2},#{param3}
@@ -121,38 +92,23 @@
     </select>
 
     <!--count-->
-    <select id="count" parameterType="com.web.entity.Coder" resultType="int">
-        select count(*) from inst_coder
+    <select id="count" parameterType="SoloContest" resultType="int">
+        select count(*) from inst_solo_contest
         <where>
-            <if test="picture !=null and picture!=''">
-                AND inst_coder.picture = #{picture}
+            <if test="fromUserId !=0">
+                AND dict_rank_result.fromUserId = #{fromUserId}
             </if>
-            <if test="nickname !=null and nickname!=''">
-                AND inst_coder.nickname = #{nickname}
+            <if test="toUserId !=0">
+                AND dict_rank_result.toUserId = #{toUserId}
             </if>
-            <if test="email !=null and email!=''">
-                AND inst_coder.email = #{email}
-            </if>
-            <if test="age !=0">
-                AND inst_coder.age = #{age}
-            </if>
-            <if test="sex !=0">
-                AND inst_coder.sex = #{sex}
-            </if>
-            <if test="fame !=0">
-                AND inst_coder.fame = #{fame}
-            </if>
-            <if test="instfactionid !=0">
-                AND inst_coder.instfactionid = #{instfactionid}
-            </if>
-            <if test="school !=null and school!=''">
-                AND inst_coder.school = #{school}
+            <if test="result !=0">
+                AND dict_rank_result.result = #{result}
             </if>
         </where>
     </select>
 
     <select id="countAll" resultType="int">
-        select count(*) from inst_coder
+        select count(*) from inst_solo_contest
     </select>
 
 

@@ -16,7 +16,7 @@
         values
         <if test="list!=null">
             <foreach collection="list" item="item"  separator=",">
-                (#{fromUserId}, #{toUserId}, #{startTime}, #{endTime}, #{problemNum}, #{result}, #{detail})
+                (#{item.fromUserId}, #{item.toUserId}, #{item.startTime}, #{item.endTime}, #{item.problemNum}, #{item.result}, #{item.detail})
             </foreach>
         </if>
 
@@ -93,16 +93,16 @@
 
     <!--count-->
     <select id="count" parameterType="SoloContest" resultType="int">
-        select * from inst_solo_contest
+        select count(*) from inst_solo_contest
         <where>
-            <if test="param1.fromUserId !=0">
-                AND dict_rank_result.fromUserId = #{param1.fromUserId}
+            <if test="fromUserId !=0">
+                AND dict_rank_result.fromUserId = #{fromUserId}
             </if>
-            <if test="param1.toUserId !=0">
-                AND dict_rank_result.toUserId = #{param1.toUserId}
+            <if test="toUserId !=0">
+                AND dict_rank_result.toUserId = #{toUserId}
             </if>
-            <if test="param1.result !=0">
-                AND dict_rank_result.result = #{param1.result}
+            <if test="result !=0">
+                AND dict_rank_result.result = #{result}
             </if>
         </where>
     </select>

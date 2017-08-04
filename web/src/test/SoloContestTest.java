@@ -1,6 +1,8 @@
 import com.web.dao.CoderDao;
+import com.web.dao.SoloContestDAO;
 import com.web.entity.BasicVo;
 import com.web.entity.Coder;
+import com.web.entity.SoloContest;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,43 +21,38 @@ import java.util.List;
 public class SoloContestTest {
 
     @Autowired
-    private CoderDao coderDao;
+    private SoloContestDAO soloContestDAO;
 
     @Test
     public void test(){
 
-        Coder coder = new Coder();
-        coder.setPicture("");
-//        coderDao.save(coder);
-
-        coder.setEmail("dsd");
-        Coder coder0 = new Coder();
-        coder0.setPicture("");
-        coder0.setEmail("ds");
-        List<BasicVo> list = new ArrayList<BasicVo>();
-        list.add(coder);
-        list.add(coder0);
-        coderDao.saveBatch(list);
-
-//        coderDao.countAll();
-//        Coder cooder = new Coder();
-//        coderDao.count(coder);
-
-
-//        coderDao.remove(1);
-//        int[] a={2,3};
-//        coderDao.removeBatch(a);
-
-//        coderDao.getEntityById(5);
+//        SoloContest soloContest = new SoloContest(0,1,1,"2017-8-4","2017-8-5",30,2,"AC 2");
+//        soloContestDAO.save(soloContest);
 //
-//        Coder coder1 = new Coder();
-//        coderDao.listBatch(coder1,5,2);
+//        SoloContest soloContest1 = new SoloContest(0,1,1,"2017-8-4","2017-8-5",30,2,"AC 2");
+//        SoloContest soloContest2 = new SoloContest(0,1,1,"2017-8-4","2017-8-5",30,2,"AC 2");
+//        List<BasicVo> list = new ArrayList<BasicVo>();
+//        list.add(soloContest1);
+//        list.add(soloContest2);
+//        soloContestDAO.saveBatch(list);
+
+//        soloContestDAO.countAll();
+//        SoloContest solo = new SoloContest();
+//        soloContestDAO.count(solo);
+
+
+//        soloContestDAO.remove(1);
+//        int[] a={2,3};
+//        soloContestDAO.removeBatch(a);
+
+//        soloContestDAO.getEntityById(5);
+//
+//        SoloContest so = new SoloContest();
+//        soloContestDAO.listBatch(so,5,2);
 
 
 
-//        Coder coder1 = new Coder();
-//        coder1.setId(5);
-//        coder1.setEmail("dssas");
-//        coderDao.update(coder1);
+        SoloContest s = new SoloContest(4,2,2,"2","2",2,2,"2");
+        soloContestDAO.update(s);
     }
 }

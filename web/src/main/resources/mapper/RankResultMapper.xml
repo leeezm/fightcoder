@@ -16,7 +16,7 @@
         values
       <if test="list!=null">
           <foreach collection="list" item="item"  separator=",">
-              (#{contestId}, #{userId}, #{account}, #{detail})
+              (#{item.contestId}, #{item.userId}, #{item.account}, #{item.detail})
           </foreach>
       </if>
 
@@ -81,7 +81,7 @@
 
     <!--count-->
     <select id="count" parameterType="RankResult" resultType="int">
-        select * from dict_rank_result
+        select count(*) from dict_rank_result
         <where>
             <if test="contestId !=0">
                 AND dict_rank_result.contestId = #{contestId}

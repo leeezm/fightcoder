@@ -3,23 +3,20 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.web.dao.CoderDao">
+<mapper namespace="com.web.dao.RankResultDAO">
 
     <!--save-->
-    <insert id="save" parameterType="com.web.entity.Coder">
-      insert into inst_coder (id, picture, nickname, email, age, sex, fame, following,followers,instFactionId, school)
-      values (#{id}, #{picture}, #{nickname}, #{email}, #{age},#{sex},#{fame},#{following},#{followers},#{instfactionid},#{school})
+    <insert id="save" parameterType="RankResult">
+      insert into dict_rank_result (contestId,userId,account,detail)
+      values (#{contestId}, #{userId}, #{account}, #{detail})
     </insert>
 
     <insert id="saveBatch" parameterType="java.util.List">
-        insert into inst_coder (id, picture, nickname, email, age, sex, fame, following,followers, instFactionId, school)
+        insert into dict_rank_result (contestId,userId,account,detail)
         values
       <if test="list!=null">
           <foreach collection="list" item="item"  separator=",">
-              (#{item.id}, #{item.picture}, #{item.nickname},
-              #{item.email}, #{item.age}, #{item.sex}, #{item.fame},
-              #{item.following},#{item.followers}, #{item.instfactionid},
-              #{item.school})
+              (#{item.contestId}, #{item.userId}, #{item.account}, #{item.detail})
           </foreach>
       </if>
 
@@ -27,13 +24,13 @@
 
     <!--remove-->
     <delete id="remove" parameterType="java.lang.Integer" >
-        delete from inst_coder
+        delete from dict_rank_result
         where id = #{id}
     </delete>
 
     <!--removeBatch-->
     <delete id="removeBatch" parameterType="int">
-        delete from inst_coder
+        delete from dict_rank_result
         where id IN
         <if test="array!=null">
             <foreach collection="array" item="item" open="(" separator="," close=")">
@@ -43,77 +40,39 @@
     </delete>
 
     <!--update-->
-    <update id="update" parameterType="com.web.entity.Coder">
-        update inst_coder
+    <update id="update" parameterType="RankResult">
+        update dict_rank_result
         <set>
-            <if test="picture!=null and picture!=''">
-                picture = #{picture},
+            <if test="contestId!=0">
+                contestId = #{contestId},
             </if>
-            <if test="nickname!=null and nickname!=''">
-                nickname = #{nickname},
+            <if test="userId!=0">
+                userId = #{userId},
             </if>
-            <if test="email!=null and email!=''">
-                email = #{email},
+            <if test="account!=0">
+                account = #{account},
             </if>
-            <if test="age!=0">
-                age = #{age},
-            </if>
-            <if test="sex!=0">
-                sex = #{sex},
-            </if>
-            <if test="fame!=0">
-                fame = #{fame},
-            </if>
-            <if test="following!=null and following!=''">
-                following = #{following},
-            </if>
-            <if test="followers!=null and followers!=''">
-                followers = #{followers},
-            </if>
-            <if test="instfactionid!=0">
-                instfactionid = #{instfactionid},
-            </if>
-            <if test="school!=null and school!=''">
-                school = #{school}
+            <if test="detail!=null and detail!=''">
+                detail = #{detail},
             </if>
         </set>
         where id = #{id}
     </update>
 
     <!--find-->
-    <select id="getEntityById" parameterType="int" resultType="com.web.entity.Coder">
-        select
-        id, picture, nickname, email, age, sex, fame, instFactionId, school
-        from inst_coder
+    <select id="getEntityById" parameterType="int" resultType="RankResult">
+        select * from dict_rank_result
         where id = #{id}
     </select>
 
-    <select id="listBatch"  resultType="com.web.entity.Coder">
-        select * from inst_coder
+    <select id="listBatch"  resultType="RankResult">
+        select * from dict_rank_result
         <where>
-            <if test="param1.picture !=0">
-                AND inst_coder.picture = #{param1.picture}
+            <if test="param1.contestId !=0">
+                AND dict_rank_result.contestId = #{param1.contestId}
             </if>
-            <if test="param1.nickname !=0">
-                AND inst_coder.nickname = #{param1.nickname}
-            </if>
-            <if test="param1.email !=null and param1.email!=''">
-                AND inst_coder.email = #{param1.email}
-            </if>
-            <if test="param1.age !=null and param1.age!=''">
-                AND inst_coder.age = #{param1.age}
-            </if>
-            <if test="param1.sex !=null and param1.sex!=''">
-                AND inst_coder.sex = #{param1.sex}
-            </if>
-            <if test="param1.fame !=null and param1.fame!=''">
-                AND inst_coder.fame = #{param1.fame}
-            </if>
-            <if test="param1.instfactionid !=null and param1.instfactionid!=''">
-                AND inst_coder.instfactionid = #{param1.instfactionid}
-            </if>
-            <if test="param1.school !=null and param1.school!=''">
-                AND inst_coder.school = #{param1.school}
+            <if test="param1.userId !=0">
+                AND dict_rank_result.userId = #{param1.userId}
             </if>
         </where>
         limit #{param2},#{param3}
@@ -121,38 +80,20 @@
     </select>
 
     <!--count-->
-    <select id="count" parameterType="com.web.entity.Coder" resultType="int">
-        select count(*) from inst_coder
+    <select id="count" parameterType="RankResult" resultType="int">
+        select count(*) from dict_rank_result
         <where>
-            <if test="picture !=null and picture!=''">
-                AND inst_coder.picture = #{picture}
+            <if test="contestId !=0">
+                AND dict_rank_result.contestId = #{contestId}
             </if>
-            <if test="nickname !=null and nickname!=''">
-                AND inst_coder.nickname = #{nickname}
-            </if>
-            <if test="email !=null and email!=''">
-                AND inst_coder.email = #{email}
-            </if>
-            <if test="age !=0">
-                AND inst_coder.age = #{age}
-            </if>
-            <if test="sex !=0">
-                AND inst_coder.sex = #{sex}
-            </if>
-            <if test="fame !=0">
-                AND inst_coder.fame = #{fame}
-            </if>
-            <if test="instfactionid !=0">
-                AND inst_coder.instfactionid = #{instfactionid}
-            </if>
-            <if test="school !=null and school!=''">
-                AND inst_coder.school = #{school}
+            <if test="userId!=0">
+                AND dict_rank_result.userId = #{userId}
             </if>
         </where>
     </select>
 
     <select id="countAll" resultType="int">
-        select count(*) from inst_coder
+        select count(*) from dict_rank_result
     </select>
 
 

@@ -1,6 +1,10 @@
 import com.web.dao.CoderDao;
+import com.web.dao.RankContestDAO;
+import com.web.dao.RankResultDAO;
 import com.web.entity.BasicVo;
 import com.web.entity.Coder;
+import com.web.entity.RankContest;
+import com.web.entity.RankResult;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,43 +23,38 @@ import java.util.List;
 public class RankResultTest {
 
     @Autowired
-    private CoderDao coderDao;
+    private RankResultDAO rankResultDAO;
 
     @Test
     public void test(){
 
-        Coder coder = new Coder();
-        coder.setPicture("");
-//        coderDao.save(coder);
-
-        coder.setEmail("dsd");
-        Coder coder0 = new Coder();
-        coder0.setPicture("");
-        coder0.setEmail("ds");
-        List<BasicVo> list = new ArrayList<BasicVo>();
-        list.add(coder);
-        list.add(coder0);
-        coderDao.saveBatch(list);
-
-//        coderDao.countAll();
-//        Coder cooder = new Coder();
-//        coderDao.count(coder);
-
-
-//        coderDao.remove(1);
-//        int[] a={2,3};
-//        coderDao.removeBatch(a);
-
-//        coderDao.getEntityById(5);
+//        RankResult rr = new RankResult(0,1,2,100,"aa");
+//        rankResultDAO.save(rr);
 //
-//        Coder coder1 = new Coder();
-//        coderDao.listBatch(coder1,5,2);
+//        RankResult rr1 = new RankResult(0,1,2,100,"aa");
+//        RankResult rr2 = new RankResult(0,1,2,100,"aa");
+//        List<BasicVo> list = new ArrayList<BasicVo>();
+//        list.add(rr1);
+//        list.add(rr2);
+//        rankResultDAO.saveBatch(list);
+
+//        rankResultDAO.countAll();
+//        RankResult rr = new RankResult();
+//        rankResultDAO.count(rr);
+
+
+//        rankResultDAO.remove(1);
+//        int[] a={2,3};
+//        rankResultDAO.removeBatch(a);
+
+//        rankResultDAO.getEntityById(5);
+//
+//        RankResult rr = new RankResult();
+//        rankResultDAO.listBatch(rr,5,2);
 
 
 
-//        Coder coder1 = new Coder();
-//        coder1.setId(5);
-//        coder1.setEmail("dssas");
-//        coderDao.update(coder1);
+        RankResult sr = new RankResult(4,22,22,22,"22");
+        rankResultDAO.update(sr);
     }
 }
